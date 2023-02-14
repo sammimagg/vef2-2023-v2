@@ -15,7 +15,8 @@ const {
   SESSION_SECRET: sessionSecret,
   DATABASE_URL: connectionString,
 } = process.env;
-
+console.log(sessionSecret)
+console.log(connectionString)
 if (!connectionString || !sessionSecret) {
   console.error('Vantar gögn í env');
   process.exit(1);
