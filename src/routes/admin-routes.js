@@ -32,23 +32,8 @@ async function index(req, res) {
   });
 }
 
-function login(req, res) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/admin');
-  }
 
-  let message = '';
-
-  // Athugum hvort einhver skilaboð séu til í session, ef svo er birtum þau
-  // og hreinsum skilaboð
-  if (req.session.messages && req.session.messages.length > 0) {
-    message = req.session.messages.join(', ');
-    req.session.messages = [];
-  }
-
-  return res.render('login', { message, title: 'Innskráning' });
-}
-
+// Fyrir admin
 async function validationCheck(req, res, next) {
   const { name, description } = req.body;
 
@@ -86,7 +71,7 @@ async function validationCheck(req, res, next) {
 
   return next();
 }
-
+// Fyrir admin
 async function validationCheckUpdate(req, res, next) {
   const { name, description } = req.body;
   const { slug } = req.params;
@@ -125,7 +110,7 @@ async function validationCheckUpdate(req, res, next) {
 
   return next();
 }
-
+// fyrir admin
 async function registerRoute(req, res) {
   const { name, description } = req.body;
   const slug = slugify(name);
@@ -138,7 +123,7 @@ async function registerRoute(req, res) {
 
   return res.render('error');
 }
-
+// fyrir admin
 async function updateRoute(req, res) {
   const { name, description } = req.body;
   const { slug } = req.params;
@@ -159,7 +144,7 @@ async function updateRoute(req, res) {
 
   return res.render('error');
 }
-
+// fyrir admin
 async function eventRoute(req, res, next) {
   const { slug } = req.params;
   const { user: { username } = {} } = req;
@@ -190,14 +175,14 @@ adminRouter.post(
   catchErrors(registerRoute)
 );
 
-adminRouter.get('/login', login);
+
 adminRouter.post(
   '/login',
 
   // Þetta notar strat að ofan til að skrá notanda inn
   passport.authenticate('local', {
     failureMessage: 'Notandanafn eða lykilorð vitlaust.',
-    failureRedirect: '/admin/login',
+    failureRedirect: '/login',
   }),
 
   // Ef við komumst hingað var notandi skráður inn, senda á /admin
@@ -206,12 +191,10 @@ adminRouter.post(
   }
 );
 
-adminRouter.get('/logout', (req, res,next) => {
+adminRouter.get('/logout', (req, res, next) => {
   // logout hendir session cookie og session
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
+  req.logout(); // Log out the user
+  res.redirect('/'); // Redirect to home page
 });
 
 // Verður að vera seinast svo það taki ekki yfir önnur route

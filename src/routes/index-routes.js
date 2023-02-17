@@ -7,7 +7,7 @@ import {
   sanitizationMiddleware,
   xssSanitizationMiddleware,
 } from '../lib/validation.js';
-
+import passport, { ensureLoggedIn } from '../lib/login.js';
 export const indexRouter = express.Router();
 
 async function indexRoute(req, res) {
@@ -27,7 +27,6 @@ async function eventRoute(req, res, next) {
   if (!event) {
     return next();
   }
-
   const registered = await listRegistered(event.id);
 
   return res.render('event', {
@@ -36,6 +35,7 @@ async function eventRoute(req, res, next) {
     registered,
     errors: [],
     data: {},
+    isLoggedIn: req.isAuthenticated(),
   });
 }
 

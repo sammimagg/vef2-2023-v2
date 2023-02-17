@@ -23,6 +23,7 @@
       </ul>
     <% } %>
   </div>
+  <% if (isLoggedIn === true) { %>
   <div class="event__registration">
     <h2 class="event__subtitle">Skráðu þig</h2>
     <form method="post" action="/<%= event.slug %>" enctype="application/x-www-form-urlencoded" class="">
@@ -48,6 +49,18 @@
       <button class="button">Skrá mig</button>
     </form>
   </div>
+  <% } else { %>
+    <div>
+      <p>Til að skrá sig á viðburð þarf að vera skráður inn</p>
+      <a class="link__link" href="/admin/login">Skrá mig inn</a>
+    </div>
+    <% } %>
+
+
+
+
+
+
   <div class="link">
     <a class="link__link" href="/">Til baka</a>
   </div>

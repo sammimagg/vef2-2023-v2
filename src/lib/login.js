@@ -15,8 +15,6 @@ import { comparePasswords, findById, findByUsername } from './users.js';
 async function strat(username, password, done) {
   try {
     const user = await findByUsername(username);
-    console.log(user.admin)
-
     if (!user) {
       return done(null, false);
     }
