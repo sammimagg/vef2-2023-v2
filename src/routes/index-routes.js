@@ -1,7 +1,7 @@
 import express from 'express';
 import { validationResult } from 'express-validator';
 import { catchErrors } from '../lib/catch-errors.js';
-import { listEvent, listEvents, listRegistered, register } from '../lib/db.js';
+import { listEvent, listEvents, listRegistered, register, getEvents } from '../lib/db.js';
 import {
   registrationValidationMiddleware,
   sanitizationMiddleware,
@@ -10,13 +10,18 @@ import {
 export const indexRouter = express.Router();
 
 async function indexRoute(req, res) {
-  const events = await listEvents();
+  const page = parseInt(req.params.page) || 1;
+  const perpage = 5;
+  const events = await getEvents(page, perpage);
+
+
   const username = []
   let isAdmin = false
   if (req.isAuthenticated() ) {
     username.push(req.user.username);
-    isAdmin == req.user.admin;
+    isAdmin = req.user.admin;
   }
+  console.log(events.length)
 
   res.render('index', {
     title: 'Viðburðasíðan',
@@ -101,8 +106,8 @@ async function registerRoute(req, res) {
   return res.render('error');
 }
 
-indexRouter.get('/', catchErrors(indexRoute));
-indexRouter.get('/:slug', catchErrors(eventRoute));
+indexRouter.get('/:page?', catchErrors(indexRoute));
+indexRouter.get('/event/:slug', catchErrors(eventRoute));
 indexRouter.post(
   '/:slug',
   registrationValidationMiddleware('comment'),

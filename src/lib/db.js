@@ -117,15 +117,19 @@ export async function register({ name, comment, event } = {}) {
   return null;
 }
 
-export async function listEvents() {
+export async function listEvents(perpage, offset) {
   const q = `
     SELECT
       id, name, slug, description, location, url, created, updated
     FROM
       events
+    LIMIT
+      ($1)
+    OFFSET
+      ($2)
   `;
-
-  const result = await query(q);
+  const values = [perpage,offset]
+  const result = await query(q, values);
 
   if (result) {
     return result.rows;
@@ -133,6 +137,12 @@ export async function listEvents() {
 
   return null;
 }
+export async function getEvents(page, perpage) {
+  const offset = (page - 1) * perpage;
+  const events = await listEvents(perpage, offset);
+  return events;
+}
+
 
 export async function listEvent(slug) {
   const q = `
