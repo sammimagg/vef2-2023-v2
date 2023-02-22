@@ -7,16 +7,23 @@ import {
   sanitizationMiddleware,
   xssSanitizationMiddleware,
 } from '../lib/validation.js';
-import passport, { ensureLoggedIn } from '../lib/login.js';
 export const indexRouter = express.Router();
 
 async function indexRoute(req, res) {
   const events = await listEvents();
+  const username = []
+  let isAdmin = false
+  if (req.isAuthenticated() ) {
+    username.push(req.user.username);
+    isAdmin == req.user.admin;
+  }
 
   res.render('index', {
     title: 'Viðburðasíðan',
-    admin: false,
+    admin: isAdmin,
     events,
+    username: username,
+    isLoggedIn: req.isAuthenticated(),
   });
 }
 

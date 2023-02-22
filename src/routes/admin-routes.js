@@ -7,6 +7,7 @@ import {
   listEventByName,
   listEvents,
   updateEvent,
+  deleteEvent,
 } from '../lib/db.js';
 import passport, { ensureLoggedIn } from '../lib/login.js';
 import { slugify } from '../lib/slugify.js';
@@ -31,9 +32,15 @@ async function index(req, res) {
     admin: true,
   });
 }
-
-
-// Fyrir admin
+function isAdmin(req, res, next) {
+  if (req.user && req.user.admin) {
+    // User is an administrator, continue to the next middleware
+    next();
+  } else {
+    // User is not an administrator, redirect to the home page or show an error message
+    res.redirect('/');
+  }
+}
 async function validationCheck(req, res, next) {
   const { name, description } = req.body;
 
@@ -71,7 +78,6 @@ async function validationCheck(req, res, next) {
 
   return next();
 }
-// Fyrir admin
 async function validationCheckUpdate(req, res, next) {
   const { name, description } = req.body;
   const { slug } = req.params;
@@ -110,7 +116,6 @@ async function validationCheckUpdate(req, res, next) {
 
   return next();
 }
-// fyrir admin
 async function registerRoute(req, res) {
   const { name, description } = req.body;
   const slug = slugify(name);
@@ -123,7 +128,6 @@ async function registerRoute(req, res) {
 
   return res.render('error');
 }
-// fyrir admin
 async function updateRoute(req, res) {
   const { name, description } = req.body;
   const { slug } = req.params;
@@ -144,7 +148,6 @@ async function updateRoute(req, res) {
 
   return res.render('error');
 }
-// fyrir admin
 async function eventRoute(req, res, next) {
   const { slug } = req.params;
   const { user: { username } = {} } = req;
@@ -164,7 +167,7 @@ async function eventRoute(req, res, next) {
   });
 }
 
-adminRouter.get('/', ensureLoggedIn, catchErrors(index));
+adminRouter.get('/', ensureLoggedIn, isAdmin, catchErrors(index));
 adminRouter.post(
   '/',
   ensureLoggedIn,
@@ -176,25 +179,24 @@ adminRouter.post(
 );
 
 
-adminRouter.post(
-  '/login',
-
-  // Þetta notar strat að ofan til að skrá notanda inn
-  passport.authenticate('local', {
-    failureMessage: 'Notandanafn eða lykilorð vitlaust.',
-    failureRedirect: '/login',
-  }),
-
-  // Ef við komumst hingað var notandi skráður inn, senda á /admin
-  (req, res) => {
-    res.redirect('/admin');
-  }
-);
 
 adminRouter.get('/logout', (req, res, next) => {
   // logout hendir session cookie og session
   req.logout(); // Log out the user
   res.redirect('/'); // Redirect to home page
+});
+
+adminRouter.get('/delete/:slug', async (req, res) => {
+  const { slug } = req.params;
+  const event = await listEvent(slug);
+
+  if (!event) {
+    return res.status(404).send('Event not found');
+  }
+
+  await deleteEvent(event.id);
+
+  return res.send('Event deleted');
 });
 
 // Verður að vera seinast svo það taki ekki yfir önnur route

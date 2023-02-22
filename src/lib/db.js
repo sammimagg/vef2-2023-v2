@@ -57,15 +57,15 @@ export async function dropSchema(dropFile = DROP_SCHEMA_FILE) {
   return query(data.toString('utf-8'));
 }
 
-export async function createEvent({ name, slug, description } = {}) {
+export async function createEvent({ name, slug, description, url, location } = {}) {
   const q = `
     INSERT INTO events
-      (name, slug, description)
+      (name, slug, description, url, location)
     VALUES
-      ($1, $2, $3)
-    RETURNING id, name, slug, description;
+      ($1, $2, $3, $4, $5)
+    RETURNING id, name, slug, description, url, location ;
   `;
-  const values = [name, slug, description];
+  const values = [name, slug, description, url, location];
   const result = await query(q, values);
 
   if (result && result.rowCount === 1) {
@@ -120,7 +120,7 @@ export async function register({ name, comment, event } = {}) {
 export async function listEvents() {
   const q = `
     SELECT
-      id, name, slug, description, created, updated
+      id, name, slug, description, location, url, created, updated
     FROM
       events
   `;
@@ -188,7 +188,12 @@ export async function listRegistered(event) {
 
   return null;
 }
+export async function deleteEvent(id) {
+  const q = `DELETE FROM events WHERE id = $1`;
+  const result = await query(q, [id]);
+  return result;
 
+}
 export async function end() {
   await pool.end();
 }

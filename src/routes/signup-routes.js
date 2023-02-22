@@ -46,7 +46,7 @@ async function signupPost(req,res) {
   }
   else {
     await createUser(username, password);
-    res.redirect('/admin/login')
+    res.redirect('/login')
   }
 
 }

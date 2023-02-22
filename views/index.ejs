@@ -4,8 +4,17 @@
 
 <%- include('events') -%>
 
+
 <div class="link">
-  <a class="link__link" href="/login">Innskráning</a>
+  <% if (isLoggedIn === false) { %>
+    <a class="link__link" href="/login">Innskráning</a>
+  <% } else { %>
+    <p class="user__loggedin">Innskráður sem: <strong><%= username %></strong></p>
+    <p class="user__logout"><a href="/logout">Útskrá</a></p>
+  <% } %>
+
+
 </div>
+
 
 <%- include('footer') -%>

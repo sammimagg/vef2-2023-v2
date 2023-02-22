@@ -9,6 +9,7 @@ import { adminRouter } from './routes/admin-routes.js';
 import { indexRouter } from './routes/index-routes.js';
 import { signupRouter } from './routes/signup-routes.js';
 import { loginRouter } from './routes/login-routes.js';
+import { logoutRouter } from './routes/logout-router.js';
 
 dotenv.config();
 
@@ -50,7 +51,8 @@ app.use(passport.session());
 app.locals = {
   isInvalid,
 };
-app.use('/login', loginRouter)
+app.use('/logout', logoutRouter);
+app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/admin', adminRouter);
 app.use('/', indexRouter);
