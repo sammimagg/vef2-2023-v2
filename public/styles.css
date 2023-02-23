@@ -125,14 +125,40 @@ section {
 .events__event {
   margin-bottom: 1rem;
 }
-
+.event__user span{
+  font-weight: bold;
+}
+.event__user {
+  margin-bottom: 1em;
+}
 .events__eventLink {
   font-weight: bold;
 }
 .event__location span{
   font-weight: bold;
 }
-
+.admin__tool {
+  display: flex
+}
+.events__delete {
+  background-color: lightpink;
+  padding: 0.5em;
+  margin: 0.5em;
+  border-radius: 0.5em;
+}
+.events__delete a {
+  color: black;
+}
+.events__edit a {
+  color: black;
+}
+.events__edit {
+  background-color: lightgreen;
+  padding: 0.5em;
+  margin: 0.5em;
+  margin-left: 0em;
+  border-radius: 0.5em;
+}
 .events__eventDescription {
   display: block;
   font-style: italic;

@@ -23,7 +23,7 @@ export const adminRouter = express.Router();
 
 async function index(req, res) {
   const page = parseInt(req.params.page) || 1;
-  let perpage = 10;
+  let perpage = 5;
   const events = await getEvents(page, perpage);
   const totalPages = await getTotalPages(perpage);
   const { user: { username } = {} } = req || {};
@@ -50,16 +50,21 @@ function isAdmin(req, res, next) {
   }
 }
 async function validationCheck(req, res, next) {
-  const { name, description } = req.body;
+  const { name, description, location, url } = req.body;
 
   const events = await listEvents();
   const { user: { username } = {} } = req;
-  console.log(data)
   const data = {
     name,
     description,
+    location,
+    url,
   };
-
+  let isAdmin = false
+  if (req.isAuthenticated() ) {
+    username.push(req.user.username);
+    isAdmin = req.user.admin;
+  }
   const validation = validationResult(req);
 
   const customValidations = [];
@@ -81,7 +86,7 @@ async function validationCheck(req, res, next) {
       title: 'Viðburðir — umsjón',
       data,
       errors: validation.errors.concat(customValidations),
-      admin: true,
+      admin: isAdmin,
     });
   }
 
@@ -98,6 +103,11 @@ async function validationCheckUpdate(req, res, next) {
     name,
     description,
   };
+  let isAdmin = false
+  if (req.isAuthenticated() ) {
+    username.push(req.user.username);
+    isAdmin = req.user.admin;
+  }
 
   const validation = validationResult(req);
 
@@ -119,7 +129,7 @@ async function validationCheckUpdate(req, res, next) {
       title: 'Viðburðir — umsjón',
       data,
       errors: validation.errors.concat(customValidations),
-      admin: true,
+      admin: isAdmin,
     });
   }
 
@@ -139,7 +149,6 @@ async function registerRoute(req, res) {
 }
 async function updateRoute(req, res) {
   const { name, description, location, url } = req.body;
-  console.log(name, description, location, url)
   const { slug } = req.params;
 
   const event = await listEvent(slug);
@@ -212,7 +221,7 @@ adminRouter.get('/delete/:slug', async (req, res) => {
 
   await deleteEvent(event.id);
 
-  return res.send('Event deleted');
+  return res.redirect('/');
 });
 
 // Verður að vera seinast svo það taki ekki yfir önnur route

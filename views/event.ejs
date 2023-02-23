@@ -30,7 +30,7 @@
     <h2 class="event__subtitle">Skráðu þig</h2>
     <form method="post" action="/event/<%= event.slug %>" enctype="application/x-www-form-urlencoded" class="">
       <div>
-        <p>Notandi:<%= name %></p>
+        <p class="event__user">Innskráður sem: <span><%= name %></span></p>
       </div>
       <div class="field field--textarea<%= locals.isInvalid('comment', errors) ?  ' field--invalid' : '' %>">
         <label for="comment">Athugasemd:</label>

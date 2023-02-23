@@ -76,9 +76,6 @@ async function validationCheck(req, res, next) {
   const name = userObject.username;
 
 
-
-
-  // TODO tvítekning frá því að ofan
   const { slug } = req.params;
   const event = await listEvent(slug);
   const registered = await listRegistered(event.id);
@@ -95,7 +92,7 @@ async function validationCheck(req, res, next) {
       data,
       event,
       registered,
-      isLoggedIn: true,
+      isLoggedIn,
       name,
       errors: validation.errors,
     });

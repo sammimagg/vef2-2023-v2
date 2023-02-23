@@ -6,10 +6,13 @@
         <a href="/event/<%= event.slug %>" class="events__eventLink"><%= event.name %></a>
         <p class="events__eventDescription"><%= event.description %></p>
         <p class="events__eventURL">Staðsetning: <%= event.location %></p>
-        <a class="events__eventLocation" href="//<%= event.url %>"><%= event.url %></a>
+        <p class="events__eventLocation">Slóð viðburðar: <a  href="//<%= event.url %>"><%= event.url %></a></p>
+        
         <% if (admin === true) { %>
-          <p><a href="/admin/<%= event.slug %>" class="events__eventEdit">Uppfæra viðburð</a></p>
-          <p><a href="/admin/delete/<%= event.slug %>" class="events__eventEdit">Eyða viðburð</a></p>
+          <div class="admin__tool">
+            <p class="events__edit"><a href="/admin/<%= event.slug %>" class="events__eventEdit">Uppfæra viðburð</a></p>
+            <p class="events__delete"><a href="/admin/delete/<%= event.slug %>" class="events__eventEdit">Eyða viðburð</a></p>
+          </div>
         <% } %>
       </li>
     <% } %>
