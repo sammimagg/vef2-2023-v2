@@ -15,6 +15,7 @@ async function applyAllMiddlewares(req, middlewares) {
 }
 
 describe('registration', () => {
+  console.log("blaaa")
   it('validates', async () => {
     const req = {
       body: {

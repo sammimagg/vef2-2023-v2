@@ -4,6 +4,8 @@
   <div class="event__info">
     <h1 class="event__title"><%= event.name %></h1>
     <p class="event__description"><%= event.description %></p>
+    <p class="event__location"><span>Staðsetning:</span> <%= event.location %></p>
+    <p class="event__url"><span>Slóð viðburðar: </span><a href="//<%= event.url %>"><%= event.url %></a></p>
   </div>
 
   <div class="event__registered">
@@ -26,12 +28,10 @@
   <% if (isLoggedIn === true) { %>
   <div class="event__registration">
     <h2 class="event__subtitle">Skráðu þig</h2>
-    <form method="post" action="/<%= event.slug %>" enctype="application/x-www-form-urlencoded" class="">
-      <div class="field field--input<%= locals.isInvalid('name', errors) ?  ' field--invalid' : '' %>">
-        <label for="name">Nafn*:</label>
-        <input type="text" name="name" id="name">
+    <form method="post" action="/event/<%= event.slug %>" enctype="application/x-www-form-urlencoded" class="">
+      <div>
+        <p>Notandi:<%= name %></p>
       </div>
-
       <div class="field field--textarea<%= locals.isInvalid('comment', errors) ?  ' field--invalid' : '' %>">
         <label for="comment">Athugasemd:</label>
         <textarea name="comment" id="comment"><%= data.comment %></textarea>

@@ -129,12 +129,20 @@ section {
 .events__eventLink {
   font-weight: bold;
 }
+.event__location span{
+  font-weight: bold;
+}
 
 .events__eventDescription {
   display: block;
   font-style: italic;
 }
-
+.event__description {
+  margin-bottom: 1em;
+}
+.event__url span {
+  font-weight: bold;
+}
 /** VIÐBURÐUR **/
 .event__info,
 .event__registered {
