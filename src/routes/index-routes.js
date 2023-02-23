@@ -11,7 +11,7 @@ export const indexRouter = express.Router();
 
 async function indexRoute(req, res) {
   const page = parseInt(req.params.page) || 1;
-  let perpage = 10;
+  let perpage = 5;
   const events = await getEvents(page, perpage);
   const totalPages = await getTotalPages(perpage);
 
