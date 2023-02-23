@@ -1,23 +1,8 @@
-INSERT INTO events ( name, slug, description,url,location) VALUES ('Forritarahittingur í febrúar', 
-                                                                'forritarahittingur-i-februar',
-                                                                'Forritarar hittast í febrúar og forrita saman eitthvað frábært.',
-                                                                'www.google.com',
-                                                                'Gróska'
-                                                                );
-INSERT INTO events (name, slug, description,url,location) VALUES ('Hönnuðahittingur í mars',
-                                                                'honnudahittingur-i-mars',
-                                                                'Spennandi hittingur hönnuða í Hönnunarmars.',
-                                                                'www.mbl.is',
-                                                                'Askja'
-                                                                );
-INSERT INTO events (name, slug, description,url,location) VALUES ('Verkefnastjórahittingur í apríl',
-                                                                'verkefnastjorahittingur-i-april', 
-                                                                'Virkilega vel verkefnastýrður hittingur.',
-                                                                'www.visir.is',
-                                                                'Stofnun Árna Magnússonar'
-                                                                );
 INSERT INTO events (name, slug, description, url, location)
 VALUES
+  ('Forritarahittingur í febrúar','forritarahittingur-i-februar','Forritarar hittast í febrúar og forrita saman eitthvað frábært.','www.google.com','Gróska'),
+  ('Hönnuðahittingur í mars','honnudahittingur-i-mars','Spennandi hittingur hönnuða í Hönnunarmars.','www.mbl.is','Askja'),
+  ('Verkefnastjórahittingur í apríl','verkefnastjorahittingur-i-april','Virkilega vel verkefnastýrður hittingur.','www.visir.is','Stofnun Árna Magnússonar'),
   ('AI in Finance Conference', 'ai-finance-conference-2023', 'Join us for a deep dive into how AI is transforming the finance industry. Speakers include financial experts and data scientists.', 'https://example.com/ai-finance-conference', 'New York, NY'),
   ('Digital Health Summit', 'digital-health-summit-2023', 'Discover the latest innovations in digital health and healthcare technology. Topics include telemedicine, wearables, and more.', 'https://example.com/digital-health-summit', 'San Francisco, CA'),
   ('Sustainability Leadership Conference', 'sustainability-leadership-conference-2023', 'Join us for a discussion of the latest trends and best practices in sustainable business. Speakers include sustainability experts and business leaders.', 'https://example.com/sustainability-leadership-conference', 'Amsterdam, Netherlands'),
@@ -50,20 +35,13 @@ VALUES
   ('Event 20', 'event-20', 'Description of event 20', 'http://example.com/event20', 'Location 20');
 
 
-INSERT INTO registrations (name, comment, event) VALUES ('Forvitinn forritari',
-                                                        'Hlakka til að forrita með ykkur',
-                                                        1
-                                                        );
-INSERT INTO registrations (name, comment, event) VALUES ('Jón Jónsson',
-                                                        null,
-                                                        1
-                                                        );
-INSERT INTO registrations (name, comment, event) VALUES ('Guðrún Guðrúnar', 
-                                                        'verður vefforritað?',
-                                                        1
-                                                        );
+INSERT INTO registrations (name, comment, event) 
+VALUES 
+  ('Forvitinn forritari','Hlakka til að forrita með ykkur',1),
+  ('Jón Jónsson',null, 1),
+  ('Guðrún Guðrúnar','verður vefforritað?',1);
 
-INSERT INTO users (username, password, admin) VALUES ('admin', 
-                                                        '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii',
-                                                        true
-                                                        );
+INSERT INTO users (username, password, admin)
+VALUES 
+  ('admin', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii',true);
+  ('user','$2b$11$OBIc88TxUo34sAl9MBdWw.Wr10E/lLQNDOGHfPM0cjo7YBer6W68K', false);

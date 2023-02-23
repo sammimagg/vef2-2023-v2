@@ -180,6 +180,24 @@ export async function listEventByName(name) {
 
   return null;
 }
+export async function getTotalPages(perpage) {
+  const q = `
+  SELECT COUNT(*) AS 
+    total_events 
+  FROM 
+    events;
+`;
+  const result = await query(q);
+  if (result && result.rowCount === 1) {
+    const totalEvents = parseInt(result.rows[0].total_events, 10);
+    const totalPages = Math.ceil(totalEvents / perpage);
+    return totalPages;
+  }
+
+  return null;
+}
+
+
 
 export async function listRegistered(event) {
   const q = `

@@ -1,7 +1,7 @@
 import express from 'express';
 import { validationResult } from 'express-validator';
 import { catchErrors } from '../lib/catch-errors.js';
-import { listEvent, listEvents, listRegistered, register, getEvents } from '../lib/db.js';
+import { listEvent, listEvents, listRegistered, register, getEvents,getTotalPages} from '../lib/db.js';
 import {
   registrationValidationMiddleware,
   sanitizationMiddleware,
@@ -11,9 +11,9 @@ export const indexRouter = express.Router();
 
 async function indexRoute(req, res) {
   const page = parseInt(req.params.page) || 1;
-  const perpage = 5;
+  let perpage = 10;
   const events = await getEvents(page, perpage);
-
+  const totalPages = await getTotalPages(perpage);
 
   const username = []
   let isAdmin = false
@@ -21,13 +21,15 @@ async function indexRoute(req, res) {
     username.push(req.user.username);
     isAdmin = req.user.admin;
   }
-  console.log(events.length)
-
+  
   res.render('index', {
     title: 'Viðburðasíðan',
     admin: isAdmin,
     events,
     username: username,
+    page,
+    perpage,
+    totalPages,
     isLoggedIn: req.isAuthenticated(),
   });
 }
@@ -62,7 +64,6 @@ async function eventRegisteredRoute(req, res) {
 
 async function validationCheck(req, res, next) {
   const { name, comment } = req.body;
-
   // TODO tvítekning frá því að ofan
   const { slug } = req.params;
   const event = await listEvent(slug);
