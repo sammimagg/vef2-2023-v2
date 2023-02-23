@@ -43,5 +43,5 @@ VALUES
 
 INSERT INTO users (username, password, admin)
 VALUES 
-  ('admin', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii',true);
+  ('admin', '$2a$11$pgj3.zySyFOvIQEpD7W6Aund1Tw.BFarXxgLJxLbrzIv/4Nteisii',true),
   ('user','$2b$11$OBIc88TxUo34sAl9MBdWw.Wr10E/lLQNDOGHfPM0cjo7YBer6W68K', false);
