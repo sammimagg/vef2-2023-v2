@@ -10,7 +10,7 @@
     <p class="user__admin"><a href="/admin">Admin síða</a></p>
     <p class="user__logout"><a href="/logout">Útskrá</a></p>
   <% } else if (isLoggedIn === true) {%>   
-    <p class="user__loggedin">Innskráður sem: <strong><%= username %></strong></p>
+    <p class="user-loggedin">Innskráður sem: <strong><%= username %></strong></p>
     <p class="user__logout"><a href="/logout">Útskrá</a></p>
   <% } else { %>
     <a class="link__link" href="/login">Innskráning</a>

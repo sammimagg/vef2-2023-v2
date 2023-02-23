@@ -1,25 +1,25 @@
-import { readFile } from 'fs/promises';
-import pg from 'pg';
+import { readFile } from "fs/promises";
+import pg from "pg";
 
-const SCHEMA_FILE = './sql/schema.sql';
-const DROP_SCHEMA_FILE = './sql/drop.sql';
+const SCHEMA_FILE = "./sql/schema.sql";
+const DROP_SCHEMA_FILE = "./sql/drop.sql";
 
-const { DATABASE_URL: connectionString, NODE_ENV: nodeEnv = 'development' } =
+const { DATABASE_URL: connectionString, NODE_ENV: nodeEnv = "development" } =
   process.env;
 
 if (!connectionString) {
-  console.error('vantar DATABASE_URL í .env');
+  console.error("vantar DATABASE_URL í .env");
   process.exit(-1);
 }
 
 // Notum SSL tengingu við gagnagrunn ef við erum *ekki* í development
 // mode, á heroku, ekki á local vél
-const ssl = nodeEnv === 'production' ? { rejectUnauthorized: false } : false;
+const ssl = nodeEnv === "production" ? { rejectUnauthorized: false } : false;
 
 const pool = new pg.Pool({ connectionString, ssl });
 
-pool.on('error', (err) => {
-  console.error('Villa í tengingu við gagnagrunn, forrit hættir', err);
+pool.on("error", (err) => {
+  console.error("Villa í tengingu við gagnagrunn, forrit hættir", err);
   process.exit(-1);
 });
 
@@ -28,7 +28,7 @@ export async function query(q, values = []) {
   try {
     client = await pool.connect();
   } catch (e) {
-    console.error('unable to get client from pool', e);
+    console.error("unable to get client from pool", e);
     return null;
   }
 
@@ -36,8 +36,8 @@ export async function query(q, values = []) {
     const result = await client.query(q, values);
     return result;
   } catch (e) {
-    if (nodeEnv !== 'test') {
-      console.error('unable to query', e);
+    if (nodeEnv !== "test") {
+      console.error("unable to query", e);
     }
     return null;
   } finally {
@@ -48,16 +48,22 @@ export async function query(q, values = []) {
 export async function createSchema(schemaFile = SCHEMA_FILE) {
   const data = await readFile(schemaFile);
 
-  return query(data.toString('utf-8'));
+  return query(data.toString("utf-8"));
 }
 
 export async function dropSchema(dropFile = DROP_SCHEMA_FILE) {
   const data = await readFile(dropFile);
 
-  return query(data.toString('utf-8'));
+  return query(data.toString("utf-8"));
 }
 
-export async function createEvent({ name, slug, description, url, location } = {}) {
+export async function createEvent({
+  name,
+  slug,
+  description,
+  url,
+  location,
+} = {}) {
   const q = `
     INSERT INTO events
       (name, slug, description, url, location)
@@ -76,8 +82,11 @@ export async function createEvent({ name, slug, description, url, location } = {
 }
 
 // Updatear ekki description, erum ekki að útfæra partial update
-export async function updateEvent(id, { name, slug, description, location, url } = {}) {
-  console.log(name, slug, description, location, url)
+export async function updateEvent(
+  id,
+  { name, slug, description, location, url } = {}
+) {
+  console.log(name, slug, description, location, url);
   const q = `
     UPDATE events
     SET
@@ -98,7 +107,6 @@ export async function updateEvent(id, { name, slug, description, location, url }
   }
   return null;
 }
-
 
 export async function register({ name, comment, event } = {}) {
   const q = `
@@ -130,7 +138,7 @@ export async function listEvents(perpage, offset) {
     OFFSET
       ($2)
   `;
-  const values = [perpage,offset]
+  const values = [perpage, offset];
   const result = await query(q, values);
 
   if (result) {
@@ -144,7 +152,6 @@ export async function getEvents(page, perpage) {
   const events = await listEvents(perpage, offset);
   return events;
 }
-
 
 export async function listEvent(slug) {
   const q = `
@@ -199,8 +206,6 @@ export async function getTotalPages(perpage) {
   return null;
 }
 
-
-
 export async function listRegistered(event) {
   const q = `
     SELECT
@@ -222,7 +227,6 @@ export async function deleteEvent(id) {
   const q = `DELETE FROM events WHERE id = $1`;
   const result = await query(q, [id]);
   return result;
-
 }
 export async function end() {
   await pool.end();

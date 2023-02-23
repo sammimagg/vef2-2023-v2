@@ -1,6 +1,6 @@
-import passport from 'passport';
-import { Strategy } from 'passport-local';
-import { comparePasswords, findById, findByUsername } from './users.js';
+import passport from "passport";
+import { Strategy } from "passport-local";
+import { comparePasswords, findById, findByUsername } from "./users.js";
 
 /**
  * Athugar hvort username og password sé til í notandakerfi.
@@ -56,7 +56,7 @@ export function ensureLoggedIn(req, res, next) {
     return next();
   }
 
-  return res.redirect('/login');
+  return res.redirect("/login");
 }
 
 export default passport;

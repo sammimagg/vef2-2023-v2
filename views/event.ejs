@@ -1,24 +1,24 @@
 <%- include('header') -%>
 
 <section class="event">
-  <div class="event__info">
-    <h1 class="event__title"><%= event.name %></h1>
-    <p class="event__description"><%= event.description %></p>
-    <p class="event__location"><span>Staðsetning:</span> <%= event.location %></p>
-    <p class="event__url"><span>Slóð viðburðar: </span><a href="//<%= event.url %>"><%= event.url %></a></p>
+  <div class="event-info">
+    <h1 class="event-title"><%= event.name %></h1>
+    <p class="event-description"><%= event.description %></p>
+    <p class="event-location"><span>Staðsetning:</span> <%= event.location %></p>
+    <p class="event-url"><span>Slóð viðburðar: </span><a href="//<%= event.url %>"><%= event.url %></a></p>
   </div>
 
-  <div class="event__registered">
-    <h2 class="event__subtitle">Skráningar á viðburð</h2>
+  <div class="event-registered">
+    <h2 class="event-subtitle">Skráningar á viðburð</h2>
     <% if (registered.length === 0) { %>
       <p class="event__empty">Engin hefur skráð sig á þennan viðburð</p>
     <% } else { %>
-      <ul class="event__registeredList">
+      <ul class="event-registeredList">
         <% registered.forEach((entry) => { %>
-          <li class="event__registeredItem">
-            <span class="event__registeredName"><%= entry.name %></span>
+          <li class="event-registered-item">
+            <span class="event-registered-name"><%= entry.name %></span>
             <% if (entry.comment) { %>
-              <span class="event__registeredComment"><%= entry.comment %></span>
+              <span class="event-registered-comment"><%= entry.comment %></span>
             <% } %>
           </li>
         <% }); %>
@@ -27,18 +27,18 @@
   </div>
   <% if (isLoggedIn === true) { %>
   <div class="event__registration">
-    <h2 class="event__subtitle">Skráðu þig</h2>
+    <h2 class="event-subtitle">Skráðu þig</h2>
     <form method="post" action="/event/<%= event.slug %>" enctype="application/x-www-form-urlencoded" class="">
       <div>
-        <p class="event__user">Innskráður sem: <span><%= name %></span></p>
+        <p class="event-user">Innskráður sem: <span><%= name %></span></p>
       </div>
-      <div class="field field--textarea<%= locals.isInvalid('comment', errors) ?  ' field--invalid' : '' %>">
+      <div class="field field-textarea<%= locals.isInvalid('comment', errors) ?  ' field-invalid' : '' %>">
         <label for="comment">Athugasemd:</label>
         <textarea name="comment" id="comment"><%= data.comment %></textarea>
       </div>
 
       <% if (errors.length > 0) { %>
-        <h3 class="errors__title">Villur við skráningu:</h3>
+        <h3 class="errors-title">Villur við skráningu:</h3>
         <ul class="errors">
           <% errors.forEach((error) => { %>
             <li class="error"><label for="<%= error.param %>"><%= error.msg %></label></li>

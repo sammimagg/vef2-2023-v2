@@ -11,7 +11,7 @@ html {
 }
 
 :root {
-  --fonts: Helvetica, Arial, sans-serif;
+  --fonts: helvetica, arial, sans-serif;
   --color-white: #eee;
   --color-accent: #aa6;
   --color-accent-dark: #663;
@@ -68,7 +68,7 @@ section {
   width: 100%;
 }
 
-.field--textarea {
+.field-textarea {
   align-items: flex-start;
 }
 
@@ -77,8 +77,8 @@ section {
   min-height: 6rem;
 }
 
-.field--invalid input,
-.field--invalid textarea {
+.field-invalid input,
+.field-invalid textarea {
   background-color: var(--color-accent-light);
   border-color: var(--color-accent);
 }
@@ -98,11 +98,11 @@ section {
   color: var(--color-white);
 }
 
-.button--margin {
+.button-margin {
   margin-top: 1rem;
 }
 
-.button--large {
+.button-large {
   font-size: 2rem;
 }
 
@@ -111,7 +111,7 @@ section {
   margin-top: 1rem;
 }
 
-.errors__title {
+.errors-title {
   font-size: 1rem;
   margin-top: 1rem;
 }
@@ -122,97 +122,118 @@ section {
   margin-bottom: 2rem;
 }
 
-.events__event {
+.events-event {
   margin-bottom: 1rem;
 }
-.event__user span{
+
+.event-user span {
   font-weight: bold;
 }
-.event__user {
+
+.event-user {
   margin-bottom: 1em;
 }
-.events__eventLink {
+
+.events-event-link {
   font-weight: bold;
 }
-.event__location span{
+
+.event-location span {
   font-weight: bold;
 }
-.admin__tool {
-  display: flex
+
+.admin-tool {
+  display: flex;
 }
-.events__delete {
+
+.events-delete {
   background-color: lightpink;
   padding: 0.5em;
   margin: 0.5em;
   border-radius: 0.5em;
 }
-.events__delete a {
+
+.events-delete a {
   color: black;
 }
-.events__edit a {
+
+.events-edit a {
   color: black;
 }
-.events__edit {
+
+.events-edit {
   background-color: lightgreen;
   padding: 0.5em;
-  margin: 0.5em;
-  margin-left: 0em;
+  margin: 0.5em 0.5em 0.5em 0;
   border-radius: 0.5em;
 }
-.events__eventDescription {
+
+.events-event-description {
   display: block;
   font-style: italic;
 }
-.event__description {
+
+.event-description {
   margin-bottom: 1em;
 }
-.event__url span {
+
+.event-url span {
   font-weight: bold;
 }
+
 /** VIÐBURÐUR **/
-.event__info,
-.event__registered {
+
+.event-info,
+.event-registered {
   margin-bottom: 2rem;
 }
 
-.event__title {
+.event-title {
   font-size: 2rem;
 }
 
-.event__subtitle {
+.event-subtitle {
   font-size: 1.5rem;
 }
 
-.event__registeredItem {
+.event-registered-item {
   margin-bottom: 1rem;
 }
 
-.event__registeredName {
+.event-registered-name {
   font-weight: bold;
 }
 
-.event__registeredComment {
+.event-registered-comment {
   display: block;
   font-style: italic;
 }
+
 .pagination {
   display: inline-block;
 }
+
 .pagination a {
   border-radius: 5px;
 }
+
 .pagination a.active {
   border-radius: 5px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
-.pagination a:hover:not(.active) {background-color: #ddd;}
-.pagination__link {
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.pagination-link {
   float: left;
   padding: 8px 16px;
   text-decoration: none;
 }
-.pagination__link--current {
+
+.pagination-link-current {
   float: left;
   padding: 8px 16px;
   text-decoration: none;
@@ -238,6 +259,6 @@ section {
   padding-top: 1rem;
 }
 
-.user__loggedin {
+.user-loggedin {
   margin-bottom: 0.5rem;
 }

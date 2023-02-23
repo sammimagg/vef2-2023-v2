@@ -10,10 +10,13 @@ npm install
 npm run test
 npm run setup
 npm start # eða `npm run dev`
-```
-#
+
+
 Test users
 username: admin
 passwd: 123
 username user
 passwd: 123
+```
+
+#

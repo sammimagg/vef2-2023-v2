@@ -1,18 +1,18 @@
-import bcrypt from 'bcrypt';
-import { query } from './db.js';
+import bcrypt from "bcrypt";
+import { query } from "./db.js";
 
 export async function comparePasswords(password, hash) {
   try {
     return await bcrypt.compare(password, hash);
   } catch (e) {
-    console.error('Gat ekki borið saman lykilorð', e);
+    console.error("Gat ekki borið saman lykilorð", e);
   }
 
   return false;
 }
 
 export async function findByUsername(username) {
-  const q = 'SELECT * FROM users WHERE username = $1';
+  const q = "SELECT * FROM users WHERE username = $1";
 
   try {
     const result = await query(q, [username]);
@@ -21,7 +21,7 @@ export async function findByUsername(username) {
       return result.rows[0];
     }
   } catch (e) {
-    console.error('Gat ekki fundið notanda eftir notendnafni');
+    console.error("Gat ekki fundið notanda eftir notendnafni");
     return null;
   }
 
@@ -29,7 +29,7 @@ export async function findByUsername(username) {
 }
 
 export async function findById(id) {
-  const q = 'SELECT * FROM users WHERE id = $1';
+  const q = "SELECT * FROM users WHERE id = $1";
 
   try {
     const result = await query(q, [id]);
@@ -38,7 +38,7 @@ export async function findById(id) {
       return result.rows[0];
     }
   } catch (e) {
-    console.error('Gat ekki fundið notanda eftir id');
+    console.error("Gat ekki fundið notanda eftir id");
   }
 
   return null;
@@ -47,7 +47,7 @@ export async function findById(id) {
 export async function createUser(username, password) {
   // Geymum hashað password!
   const hashedPassword = await bcrypt.hash(password, 11);
-  const admin = false
+  const admin = false;
 
   const q = `
     INSERT INTO
@@ -60,7 +60,7 @@ export async function createUser(username, password) {
     const result = await query(q, [username, hashedPassword, admin]);
     return result.rows[0];
   } catch (e) {
-    console.error('Gat ekki búið til notanda');
+    console.error("Gat ekki búið til notanda");
   }
 
   return null;

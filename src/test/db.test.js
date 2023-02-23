@@ -1,5 +1,5 @@
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
-import dotenv from 'dotenv';
+import { afterAll, beforeAll, describe, expect, it } from "@jest/globals";
+import dotenv from "dotenv";
 import {
   createEvent,
   createSchema,
@@ -7,11 +7,11 @@ import {
   end,
   register,
   updateEvent,
-} from '../lib/db';
+} from "../lib/db";
 
-dotenv.config({ path: './.env.test' });
+dotenv.config({ path: "./.env.test" });
 
-describe('db', () => {
+describe("db", () => {
   beforeAll(async () => {
     await dropSchema();
     await createSchema();
@@ -21,8 +21,8 @@ describe('db', () => {
     await end();
   });
 
-  it('creates a valid event and returns it', async () => {
-    const name = 'test';
+  it("creates a valid event and returns it", async () => {
+    const name = "test";
 
     const result = await createEvent({
       name,
@@ -37,15 +37,15 @@ describe('db', () => {
     // ASSERT => Staðfestum að það sem við gerðum gerðist rétt
   });
 
-  it('does not create an invalid event', async () => {
+  it("does not create an invalid event", async () => {
     const result = await createEvent({});
     expect(result).toBe(null);
   });
 
-  it('does not allow creating two events with the same name', async () => {
+  it("does not allow creating two events with the same name", async () => {
     const event = {
-      name: 'foo',
-      slug: 'foo',
+      name: "foo",
+      slug: "foo",
     };
     const result = await createEvent(event);
     const sameName = await createEvent(event);
@@ -53,35 +53,35 @@ describe('db', () => {
     expect(sameName).toBeNull();
   });
 
-  it('creates and updates an event', async () => {
+  it("creates and updates an event", async () => {
     const result = await createEvent({
-      name: 'one',
-      slug: 'one',
-      description: 'd',
+      name: "one",
+      slug: "one",
+      description: "d",
     });
 
-    const updated = await updateEvent(result.id, { name: 'two', slug: 'two' });
+    const updated = await updateEvent(result.id, { name: "two", slug: "two" });
     expect(updated.id).toEqual(result.id);
-    expect(updated.name).toBe('two');
-    expect(updated.slug).toBe('two');
-    expect(result.description).toBe('d');
+    expect(updated.name).toBe("two");
+    expect(updated.slug).toBe("two");
+    expect(result.description).toBe("d");
     expect(updated.description).toBe(null);
   });
 
-  it('allows registering to events', async () => {
-    const event = await createEvent({ name: 'e', slug: 'e' });
-    const registration = await register({ name: 'r', event: event.id });
+  it("allows registering to events", async () => {
+    const event = await createEvent({ name: "e", slug: "e" });
+    const registration = await register({ name: "r", event: event.id });
 
-    expect(registration.name).toEqual('r');
+    expect(registration.name).toEqual("r");
   });
 
-  it('does not allow registering to non existant event', async () => {
-    const registration = await register({ name: 'r', event: 0 });
+  it("does not allow registering to non existant event", async () => {
+    const registration = await register({ name: "r", event: 0 });
 
     expect(registration).toBeNull();
   });
 
-  it('does not allow registering to non existant event', async () => {
+  it("does not allow registering to non existant event", async () => {
     const registration = await register({ event: 0 });
 
     expect(registration).toBeNull();

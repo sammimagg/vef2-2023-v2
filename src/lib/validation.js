@@ -1,5 +1,5 @@
-import { body } from 'express-validator';
-import xss from 'xss';
+import { body } from "express-validator";
+import xss from "xss";
 
 // Endurnýtum mjög líka validation
 
@@ -9,7 +9,7 @@ export function registrationValidationMiddleware(textField) {
       .isLength({ max: 400 })
       .withMessage(
         `${
-          textField === 'comment' ? 'Athugasemd' : 'Lýsing'
+          textField === "comment" ? "Athugasemd" : "Lýsing"
         } má að hámarki vera 400 stafir`
       ),
   ];
@@ -18,11 +18,11 @@ export function registrationValidationMiddleware(textField) {
 // Viljum keyra sér og með validation, ver gegn „self XSS“
 export function xssSanitizationMiddleware(textField) {
   return [
-    body('name').customSanitizer((v) => xss(v)),
+    body("name").customSanitizer((v) => xss(v)),
     body(textField).customSanitizer((v) => xss(v)),
   ];
 }
 
 export function sanitizationMiddleware(textField) {
-  return [body('name').trim().escape(), body(textField).trim().escape()];
+  return [body("name").trim().escape(), body(textField).trim().escape()];
 }

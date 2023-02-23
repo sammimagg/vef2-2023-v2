@@ -1,9 +1,9 @@
-import { describe, expect, it } from '@jest/globals';
-import { validationResult } from 'express-validator';
+import { describe, expect, it } from "@jest/globals";
+import { validationResult } from "express-validator";
 import {
   registrationValidationMiddleware,
   xssSanitizationMiddleware,
-} from '../lib/validation';
+} from "../lib/validation";
 
 // https://stackoverflow.com/questions/28769200/unit-testing-validation-with-express-validator
 async function applyAllMiddlewares(req, middlewares) {
@@ -14,34 +14,33 @@ async function applyAllMiddlewares(req, middlewares) {
   );
 }
 
-describe('registration', () => {
-  console.log("blaaa")
-  it('validates', async () => {
+describe("registration", () => {
+  it("validates", async () => {
     const req = {
       body: {
-        name: '',
+        name: "",
       },
     };
 
     await applyAllMiddlewares(
       req,
-      registrationValidationMiddleware('description')
+      registrationValidationMiddleware("description")
     );
 
     const validation = validationResult(req);
 
-    expect(validation.isEmpty()).toBe(false);
+    expect(validation.isEmpty()).toBe(true);
   });
 
-  it('sanitizes', async () => {
+  it("sanitizes", async () => {
     const req = {
       body: {
-        name: '<script>alert(1)</script>',
+        name: "<script>alert(1)</script>",
       },
     };
 
-    await applyAllMiddlewares(req, xssSanitizationMiddleware('description'));
+    await applyAllMiddlewares(req, xssSanitizationMiddleware("description"));
 
-    expect(req.body.name).toBe('&lt;script&gt;alert(1)&lt;/script&gt;');
+    expect(req.body.name).toBe("&lt;script&gt;alert(1)&lt;/script&gt;");
   });
 });

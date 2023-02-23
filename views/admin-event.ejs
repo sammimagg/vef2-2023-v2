@@ -2,28 +2,28 @@
 
 <section class="event">
   <div class="event__registration">
-    <h2 class="event__subtitle">Uppfæra viðburð</h2>
+    <h2 class="event-subtitle">Uppfæra viðburð</h2>
     <form method="post" action="/admin/<%= event.slug %>" enctype="application/x-www-form-urlencoded" class="">
-      <div class="field field--input<%= locals.isInvalid('name', errors) ?  ' field--invalid' : '' %>">
+      <div class="field field--input<%= locals.isInvalid('name', errors) ?  ' field-invalid' : '' %>">
         <label for="name">Nafn*:</label>
         <input type="text" name="name" id="name" value="<%= data.name %>">
       </div>
 
-      <div class="field field--textarea<%= locals.isInvalid('description', errors) ?  ' field--invalid' : '' %>">
+      <div class="field field-textarea<%= locals.isInvalid('description', errors) ?  ' field-invalid' : '' %>">
         <label for="description">Lýsing:</label>
         <textarea name="description" id="description"><%= data.description %></textarea>
       </div>
-      <div class="field field--input<%= locals.isInvalid('location', errors) ?  ' field--invalid' : '' %>">
+      <div class="field field--input<%= locals.isInvalid('location', errors) ?  ' field-invalid' : '' %>">
         <label for="name">Staðsetning:</label>
         <input type="text" name="location" id="location" value="<%= data.location %>">
       </div>
-      <div class="field field--input<%= locals.isInvalid('url', errors) ?  ' field--invalid' : '' %>">
+      <div class="field field--input<%= locals.isInvalid('url', errors) ?  ' field-invalid' : '' %>">
         <label for="name">Slóð:</label>
         <input type="text" name="url" id="url" value="<%= data.url %>">
       </div>
 
       <% if (errors.length > 0) { %>
-        <h3 class="errors__title">Villur við skráningu:</h3>
+        <h3 class="errors-title">Villur við skráningu:</h3>
         <ul class="errors">
           <% errors.forEach((error) => { %>
             <li class="error"><label for="<%= error.param %>"><%= error.msg %></label></li>
@@ -36,7 +36,7 @@
   </div>
 
   <div class="user">
-    <p class="user__loggedin">Innskráður sem: <strong><%= username %></strong></p>
+    <p class="user-loggedin">Innskráður sem: <strong><%= username %></strong></p>
     <p class="user__logout"><a href="./logout">Útskrá</a></p>
   </div>
 
