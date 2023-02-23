@@ -62,7 +62,6 @@ async function validationCheck(req, res, next) {
   };
   let isAdmin = false
   if (req.isAuthenticated() ) {
-    username.push(req.user.username);
     isAdmin = req.user.admin;
   }
   const validation = validationResult(req);
