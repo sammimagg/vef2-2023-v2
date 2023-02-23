@@ -76,27 +76,29 @@ export async function createEvent({ name, slug, description, url, location } = {
 }
 
 // Updatear ekki description, erum ekki að útfæra partial update
-export async function updateEvent(id, { name, slug, description } = {}) {
+export async function updateEvent(id, { name, slug, description, location, url } = {}) {
+  console.log(name, slug, description, location, url)
   const q = `
     UPDATE events
-      SET
-        name = $1,
-        slug = $2,
-        description = $3,
-        updated = CURRENT_TIMESTAMP
+    SET
+      name = $1,
+      slug = $2,
+      description = $3,
+      updated = CURRENT_TIMESTAMP,
+      url = $4,
+      location = $5
     WHERE
-      id = $4
+      id = $6
     RETURNING id, name, slug, description;
   `;
-  const values = [name, slug, description, id];
+  const values = [name, slug, description, url, location, id];
   const result = await query(q, values);
-
   if (result && result.rowCount === 1) {
     return result.rows[0];
   }
-
   return null;
 }
+
 
 export async function register({ name, comment, event } = {}) {
   const q = `
@@ -147,7 +149,7 @@ export async function getEvents(page, perpage) {
 export async function listEvent(slug) {
   const q = `
     SELECT
-      id, name, slug, description, created, updated
+      id, name, slug, description, created, updated, location, url
     FROM
       events
     WHERE slug = $1

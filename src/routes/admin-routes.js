@@ -8,6 +8,8 @@ import {
   listEvents,
   updateEvent,
   deleteEvent,
+  getEvents,
+  getTotalPages
 } from '../lib/db.js';
 import passport, { ensureLoggedIn } from '../lib/login.js';
 import { slugify } from '../lib/slugify.js';
@@ -20,13 +22,19 @@ import {
 export const adminRouter = express.Router();
 
 async function index(req, res) {
-  const events = await listEvents();
+  const page = parseInt(req.params.page) || 1;
+  let perpage = 10;
+  const events = await getEvents(page, perpage);
+  const totalPages = await getTotalPages(perpage);
   const { user: { username } = {} } = req || {};
 
   return res.render('admin', {
     username,
     events,
     errors: [],
+    page,
+    perpage,
+    totalPages,
     data: {},
     title: 'Viðburðir — umsjón',
     admin: true,
@@ -46,7 +54,7 @@ async function validationCheck(req, res, next) {
 
   const events = await listEvents();
   const { user: { username } = {} } = req;
-
+  console.log(data)
   const data = {
     name,
     description,
@@ -66,6 +74,7 @@ async function validationCheck(req, res, next) {
   }
 
   if (!validation.isEmpty() || customValidations.length > 0) {
+
     return res.render('admin', {
       events,
       username,
@@ -129,7 +138,8 @@ async function registerRoute(req, res) {
   return res.render('error');
 }
 async function updateRoute(req, res) {
-  const { name, description } = req.body;
+  const { name, description, location, url } = req.body;
+  console.log(name, description, location, url)
   const { slug } = req.params;
 
   const event = await listEvent(slug);
@@ -140,6 +150,8 @@ async function updateRoute(req, res) {
     name,
     slug: newSlug,
     description,
+    url,
+    location,
   });
 
   if (updated) {
@@ -157,13 +169,17 @@ async function eventRoute(req, res, next) {
   if (!event) {
     return next();
   }
-
+  
   return res.render('admin-event', {
     username,
     title: `${event.name} — Viðburðir — umsjón`,
     event,
     errors: [],
-    data: { name: event.name, description: event.description },
+    data: { name: event.name,
+            description: event.description,
+            url: event.url,
+            location: event.location,
+      },
   });
 }
 

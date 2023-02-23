@@ -4,10 +4,9 @@ import passport, { ensureLoggedIn } from '../lib/login.js';
 export const loginRouter = express.Router();
 
 function login(req, res) {
-    console.log("her1")
+
 
     if (req.isAuthenticated() ) {
-        console.log(req.user.admin)
         if(req.user.admin === true) {
             return res.redirect('/admin');
         }
@@ -28,9 +27,8 @@ function login(req, res) {
     return res.render('login', { message, title: 'Innskráning' });
 }
 function userRedirecter(req,res) {
-    console.log("her")
+
     if (req.isAuthenticated() ) {
-        console.log(req.user.admin)
         if(req.user.admin === true) {
             return res.redirect('/admin');
         }
